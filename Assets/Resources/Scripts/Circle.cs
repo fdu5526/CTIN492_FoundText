@@ -17,7 +17,6 @@ public class Circle : MonoBehaviour {
 		scale = transform.localScale.x;
 	}
 
-
 	void ChangeScale (float ds) {
 		scale += ds;
 		transform.localScale = new Vector2(scale, scale);

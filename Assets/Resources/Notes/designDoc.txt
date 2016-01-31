@@ -1,0 +1,29 @@
+biological (red)
+	go poop
+	have sex
+	eat food
+	sleep
+
+social (orange)
+	hang with friends
+	chill with bf
+	call parents
+	play with cat
+
+work (blue)
+	commute to work
+	do work
+	work meeting
+	check email
+
+monetary (green)
+	file taxes
+	budget spending
+	pay bills
+	pay loans
+
+entertainment (yellow)
+	watch netflix
+	listen to music
+	play games
+	browse internet
