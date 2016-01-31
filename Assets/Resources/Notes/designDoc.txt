@@ -22,7 +22,7 @@ monetary (green)
 	pay bills
 	pay loans
 
-entertainment (yellow)
+entertainment (purple)
 	watch netflix
 	listen to music
 	play games
