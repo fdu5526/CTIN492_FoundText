@@ -1,0 +1,11 @@
+*.jpg
+*.bmp
+*.wav
+*.mp3
+*.mp4
+*sublime*
+Library/
+Temp/
+*.sln
+*.csproj
+*.DS_Store
