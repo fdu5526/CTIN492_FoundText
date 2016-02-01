@@ -6,8 +6,8 @@ using System.Collections;
 public class CirclesManager : MonoBehaviour {
 	char [][] daysData;
 	Timer dayTimer;
-	float prevPercentTimePassed;
-	Timer stepTimer;
+	int taskIndex;
+	Timer taskTimer;
 	int currentDay;
 
 	Circle[] circles;
@@ -24,10 +24,10 @@ public class CirclesManager : MonoBehaviour {
 		 audios = GetComponents<AudioSource>();
 
 		 currentDay = 0;
-		 prevPercentTimePassed = 0f;
+		 taskIndex = 0;
 		 dayTimer = new Timer(30f);
 		 dayTimer.Reset();
-		 stepTimer = new Timer(StepTimeBasedOnDay);
+		 taskTimer = new Timer(StepTimeBasedOnDay);
 
 		 daysData = CSVParser.Parse("Data/days");
 	}
@@ -60,11 +60,27 @@ public class CirclesManager : MonoBehaviour {
 		}
 	}
 
+	char CurrentTask {
+		get {
+			char[] dayData = daysData[Mathf.Min(currentDay, daysData.Length - 1)];
+			return dayData[taskIndex];
+		}
+	}
+
+	bool IsTaskRandomGenerated {
+		get {
+			char c = CurrentTask;
+			return (c == 'w' || c == 's' || 
+							c == 'm' || c == 'e');
+		}
+		
+	}
+
 	// increase the scale of a sphere, based on request
-	void ActivateTask (int dayDataIndex) {
+	void ActivateTask () {
 		int i = 0;
-		char[] dayData = daysData[Mathf.Min(currentDay, daysData.Length - 1)];		
-		switch (dayData[dayDataIndex]) {
+		char c = CurrentTask;
+		switch (c) {
 			case 'w':
 				i = (int)UnityEngine.Random.Range(9, 12);
 				break;
@@ -78,31 +94,38 @@ public class CirclesManager : MonoBehaviour {
 				i = (int)UnityEngine.Random.Range(12, 16);
 				break;
 			default:
-				i = (int)Char.GetNumericValue(dayData[dayDataIndex]);
+				i = (int)Char.GetNumericValue(CurrentTask);
 				break;
 		}
-
 		circles[i].ChangeScalePercent(3f);
-
 	}
-
 
 	void CheckTime () {
 		if (!dayTimer.IsOffCooldown) {
 		
 			float p = dayTimer.PercentTimePassed;
-			if (p < 0.03f) {
-				ActivateTask(0);
-			} else if (p < 0.0625f) {
-				ActivateTask(1);
+			float[] thresholds = { 0.03f, 0.0625f, 0.13f, 0.3125f, 0.4f, 0.625f, 0.7f, 0.8125f, 0.9f, 1f };
+
+			for (int i = 0; i < thresholds.Length; i++) {
+				if (taskIndex == i && p > thresholds[i]) {
+					taskIndex++;
+					ActivateTask();
+					taskTimer.Reset();
+					break;
+				}
 			}
+			
+			if (taskTimer.IsOffCooldown && IsTaskRandomGenerated) {
+				ActivateTask();
+				taskTimer.Reset();
+			}
+			
 
-
-
-			prevPercentTimePassed = dayTimer.PercentTimePassed;
 		} else {
 			//TODO move to next day
 			currentDay++;
+			taskIndex = 0;
+			dayTimer.Reset();
 		}
 	}
 
