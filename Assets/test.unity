@@ -712,6 +712,10 @@ Prefab:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11470296, guid: 66ed6d7393317d640aa4bd0e4a810361, type: 2}
+      propertyPath: m_Text
+      value: wake up
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 66ed6d7393317d640aa4bd0e4a810361, type: 2}
   m_IsPrefabParent: 0
@@ -1491,6 +1495,22 @@ Prefab:
     - target: {fileID: 143304, guid: 66ed6d7393317d640aa4bd0e4a810361, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 22437338, guid: 66ed6d7393317d640aa4bd0e4a810361, type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 22437338, guid: 66ed6d7393317d640aa4bd0e4a810361, type: 2}
+      propertyPath: m_SizeDelta.y
+      value: 227
+      objectReference: {fileID: 0}
+    - target: {fileID: 22437338, guid: 66ed6d7393317d640aa4bd0e4a810361, type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.0000047684
+      objectReference: {fileID: 0}
+    - target: {fileID: 22437338, guid: 66ed6d7393317d640aa4bd0e4a810361, type: 2}
+      propertyPath: m_SizeDelta.x
+      value: 243
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 66ed6d7393317d640aa4bd0e4a810361, type: 2}

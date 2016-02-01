@@ -9,7 +9,7 @@ public class CirclesManager : MonoBehaviour {
 		 circles = GetComponentsInChildren<Circle>();
 	}
 
-
+	// search through texts, find one to decrease in size
 	public void EnterText (string s) {
 		for (int i = 0; i < circles.Length; i++) {
 			if (circles[i].Text.Equals(s)) {

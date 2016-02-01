@@ -1,5 +1,5 @@
 biological (red)
-	go poop
+	wake up
 	have sex
 	eat food
 	sleep
