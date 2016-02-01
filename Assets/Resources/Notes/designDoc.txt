@@ -30,13 +30,7 @@ entertainment (purple)
 
 
 
-
-
-wake up
-eat food
-commute to work
-check email
-eat food
-do work
-work meeting
-[hang with friends, chill with bf, ]
+type a task's name to do it
+the bigger the task, the more it is on your mind, causing stress
+if stress fills up, you lose
+good luck!
