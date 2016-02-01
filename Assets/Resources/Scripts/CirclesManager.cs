@@ -38,6 +38,8 @@ public class CirclesManager : MonoBehaviour {
 
 	// search through texts, find one to decrease in size
 	public void EnterText (string s) {
+		s = s.Trim();
+
 		for (int i = 0; i < circles.Length; i++) {
 			if (circles[i].Text.Equals(s)) {
 				circles[i].ChangeScalePercent(0.2f);
@@ -45,11 +47,17 @@ public class CirclesManager : MonoBehaviour {
 				break;
 			}
 		}
+		// if working at night, increase stress
+		if (dayTimer.IsOffCooldown && 
+				!endOfDayTimer.IsOffCooldown &&
+				!s.Equals("sleep")) {
+			stressBar.value += 5f;
+		}
 	}
 
 	float StepTimeBasedOnDay {
 		get {
-			return Mathf.Max(2f - ((float)currentDay * 0.3f), 0.8f);
+			return Mathf.Max(2f - ((float)currentDay * 0.35f), 0.8f);
 		}
 	}
 
@@ -126,7 +134,7 @@ public class CirclesManager : MonoBehaviour {
 		if (!dayTimer.IsOffCooldown) {
 		
 			float p = dayTimer.PercentTimePassed;
-			float[] thresholds = {0.03f, 0.0625f, 0.1f, 0.3125f, 0.3f, 0.625f, 0.7f, 0.8125f, 0.87f, 0.94f };
+			float[] thresholds = {0.03f, 0.0625f, 0.1f, 0.25f, 0.3f, 0.45f, 0.6f, 0.7f, 0.8f, 0.9f };
 
 			// find whether we need to activate a new task
 			bool newTask = false;
@@ -183,12 +191,6 @@ public class CirclesManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Return)) {
 			EnterText(inputField.text);
 			inputField.text = "";
-
-			// if working at night, increase stress
-			if (dayTimer.IsOffCooldown && 
-					!endOfDayTimer.IsOffCooldown) {
-				stressBar.value += 5f;
-			}
 		}
 
 		inputField.Select();
