@@ -40,13 +40,24 @@ public class CirclesManager : MonoBehaviour {
 	public void EnterText (string s) {
 		s = s.Trim();
 
+		if (s.Length == 0) {
+			return;
+		}
+
+		bool success = false;
 		for (int i = 0; i < circles.Length; i++) {
 			if (circles[i].Text.Equals(s)) {
 				circles[i].ChangeScalePercent(0.2f);
+				audios[3].Play();
 				audios[1].Play();
+				success = true;
 				break;
 			}
 		}
+		if (!success) {
+			audios[4].Play();
+		}
+
 		// if working at night, increase stress
 		if (dayTimer.IsOffCooldown && 
 				!endOfDayTimer.IsOffCooldown &&
@@ -191,6 +202,12 @@ public class CirclesManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Return)) {
 			EnterText(inputField.text);
 			inputField.text = "";
+		}
+
+		if (Input.anyKeyDown) {
+			float p = UnityEngine.Random.Range(0.8f, 1.2f);
+			audios[2].pitch = p;
+			audios[2].Play();
 		}
 
 		inputField.Select();
