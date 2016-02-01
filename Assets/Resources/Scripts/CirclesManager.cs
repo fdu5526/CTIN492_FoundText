@@ -122,8 +122,7 @@ public class CirclesManager : MonoBehaviour {
 			}
 
 			// only activate based on timer if we are randomly generating tasks
-			if (!newTask && 
-					taskTimer.IsOffCooldown && 
+			if (!newTask && taskTimer.IsOffCooldown && 
 					IsTaskRandomGenerated) {
 				ActivateTask();
 				taskTimer.Reset();
@@ -145,10 +144,7 @@ public class CirclesManager : MonoBehaviour {
 	void FixedUpdate () { 
 		float area = Area;
 
-		// TODO set thresholds for damage here
-		if (area > 8f) {
-			stressBar.value += 0.2f;
-		} else if (area > 4f) {
+		if (area > 4f) {
 			stressBar.value += 0.1f;
 		} else if (area > 2f) {
 			stressBar.value += 0.05f;
