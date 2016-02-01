@@ -27,7 +27,7 @@ public class CirclesManager : MonoBehaviour {
 		 currentDay = 0;
 		 taskIndex = 0;
 		 dayTimer = new Timer(30f);
-		 endOfDayTimer = new Timer(3f);
+		 endOfDayTimer = new Timer(4f);
 		 dayTimer.Reset();
 		 taskTimer = new Timer(StepTimeBasedOnDay);
 
@@ -86,7 +86,7 @@ public class CirclesManager : MonoBehaviour {
 	void ActivateTask () {
 		int i = 0;
 		string ct = CurrentTask;
-		audios[1].Play();
+		audios[0].Play();
 
 		if (ct == "w") {
 			i = (int)UnityEngine.Random.Range(9, 12);
@@ -107,7 +107,7 @@ public class CirclesManager : MonoBehaviour {
 		if (!dayTimer.IsOffCooldown) {
 		
 			float p = dayTimer.PercentTimePassed;
-			float[] thresholds = {0.03f, 0.0625f, 0.1f, 0.3125f, 0.3f, 0.625f, 0.7f, 0.8125f, 0.9f, 1f };
+			float[] thresholds = {0.03f, 0.0625f, 0.1f, 0.3125f, 0.3f, 0.625f, 0.7f, 0.8125f, 0.87f, 0.94f };
 
 			// find whether we need to activate a new task
 			bool newTask = false;
@@ -164,6 +164,12 @@ public class CirclesManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Return)) {
 			EnterText(inputField.text);
 			inputField.text = "";
+
+			// if working at night, increase stress
+			if (dayTimer.IsOffCooldown && 
+					!endOfDayTimer.IsOffCooldown) {
+				stressBar.value += 5f;
+			}
 		}
 
 		inputField.Select();
