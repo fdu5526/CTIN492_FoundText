@@ -8,6 +8,7 @@ public class CirclesManager : MonoBehaviour {
 	Timer dayTimer;
 	Timer endOfDayTimer;
 	int taskIndex;
+	int prevRandTask;
 	Timer taskTimer;
 	int currentDay;
 
@@ -24,12 +25,13 @@ public class CirclesManager : MonoBehaviour {
 		 stressBar = GameObject.Find("Canvas/Stress").GetComponent<Slider>();
 		 audios = GetComponents<AudioSource>();
 
-		 currentDay = 0;
+		 currentDay = 4;
 		 taskIndex = 0;
 		 dayTimer = new Timer(30f);
 		 endOfDayTimer = new Timer(4f);
 		 dayTimer.Reset();
 		 taskTimer = new Timer(StepTimeBasedOnDay);
+		 prevRandTask = 0;
 
 		 daysData = CSVParser.Parse("Data/days");
 	}
@@ -84,21 +86,38 @@ public class CirclesManager : MonoBehaviour {
 
 	// increase the scale of a sphere, based on request
 	void ActivateTask () {
-		int i = 0;
+		int i = -1;
 		string ct = CurrentTask;
 		audios[0].Play();
 
 		if (ct == "w") {
 			i = (int)UnityEngine.Random.Range(9, 12);
+			while (i == prevRandTask) {
+				i = (int)UnityEngine.Random.Range(9, 12);
+			}
+			prevRandTask = i;
 		} else if (ct == "e") {
 			i = (int)UnityEngine.Random.Range(16, 20);
+			while (i == prevRandTask) {
+				i = (int)UnityEngine.Random.Range(16, 20);
+			}
+			prevRandTask = i;
 		} else if (ct == "s") {
 			i = (int)UnityEngine.Random.Range(4, 8);
+			while (i == prevRandTask) {
+				i = (int)UnityEngine.Random.Range(4, 8);
+			}
+			prevRandTask = i;
 		} else if (ct == "m") {
 			i = (int)UnityEngine.Random.Range(12, 16);
+			while (i == prevRandTask) {
+				i = (int)UnityEngine.Random.Range(12, 16);
+			}
+			prevRandTask = i;
 		} else {
 			i = System.Int32.Parse(ct);
 		}
+		
 		circles[i].ChangeScalePercent(3f);
 	}
 
