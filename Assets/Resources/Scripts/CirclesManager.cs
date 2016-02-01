@@ -14,17 +14,17 @@ public class CirclesManager : MonoBehaviour {
 	Circle[] circles;
 	InputField inputField;
 
-	Slider healthBar;
+	Slider stressBar;
 	AudioSource[] audios;
 
 	// Use this for initialization
 	void Start () {
 		 circles = GetComponentsInChildren<Circle>();
 		 inputField = GameObject.Find("Canvas/InputField").GetComponent<InputField>();
-		 healthBar = GameObject.Find("Canvas/Health").GetComponent<Slider>();
+		 stressBar = GameObject.Find("Canvas/Stress").GetComponent<Slider>();
 		 audios = GetComponents<AudioSource>();
 
-		 currentDay = 0;
+		 currentDay = 10;
 		 taskIndex = 0;
 		 dayTimer = new Timer(30f);
 		 endOfDayTimer = new Timer(3f);
@@ -47,8 +47,7 @@ public class CirclesManager : MonoBehaviour {
 
 	float StepTimeBasedOnDay {
 		get {
-			//TODO increase rate as days go by
-			return 2f;//(float)currentDay;
+			return Mathf.Max(2f - ((float)currentDay * 0.3f), 0.7f);
 		}
 	}
 
@@ -62,10 +61,15 @@ public class CirclesManager : MonoBehaviour {
 		}
 	}
 
+	string[] CurrentDayData {
+		get {
+			return daysData[Mathf.Min(currentDay, daysData.Length - 1)];
+		}
+	}
+
 	string CurrentTask {
 		get {
-			string[] dayData = daysData[Mathf.Min(currentDay, daysData.Length - 1)];
-			return dayData[taskIndex];
+			return CurrentDayData[taskIndex];
 		}
 	}
 
@@ -124,12 +128,16 @@ public class CirclesManager : MonoBehaviour {
 				ActivateTask();
 				taskTimer.Reset();
 			}
+		} else if (taskIndex < CurrentDayData.Length) { // straggler left over tasks
+			ActivateTask();
+			taskIndex++;
+			taskTimer.Reset();
 			endOfDayTimer.Reset();
-
-		} else if (endOfDayTimer.IsOffCooldown) {
+		} else if (endOfDayTimer.IsOffCooldown) { // sleep period
 			currentDay++;
 			taskIndex = 0;
 			dayTimer.Reset();
+			taskTimer = new Timer(StepTimeBasedOnDay);
 		}
 	}
 
@@ -139,14 +147,16 @@ public class CirclesManager : MonoBehaviour {
 
 		// TODO set thresholds for damage here
 		if (area > 8f) {
-			healthBar.value -= 0.15f;
+			stressBar.value += 0.2f;
 		} else if (area > 4f) {
-			healthBar.value -= 0.05f;
+			stressBar.value += 0.1f;
+		} else if (area > 2f) {
+			stressBar.value += 0.05f;
 		} else {
-			healthBar.value += 0.05f;
+			stressBar.value -= 0.05f;
 		}
 
-		if (healthBar.value <= 0f) {
+		if (stressBar.value >= 100f) {
 			//TODO game over
 		} else {
 			CheckTime();
