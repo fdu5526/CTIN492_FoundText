@@ -6,12 +6,14 @@ public class CirclesManager : MonoBehaviour {
 	Circle[] circles;
 	InputField inputField;
 
+	Slider healthBar;
 	AudioSource[] audios;
 
 	// Use this for initialization
 	void Start () {
 		 circles = GetComponentsInChildren<Circle>();
 		 inputField = GameObject.Find("Canvas/InputField").GetComponent<InputField>();
+		 healthBar = GameObject.Find("Canvas/Health").GetComponent<Slider>();
 		 audios = GetComponents<AudioSource>();
 	}
 
@@ -38,10 +40,20 @@ public class CirclesManager : MonoBehaviour {
 
 
 	void FixedUpdate () { 
-		// TODO set thresholds for damage here
-		if (true) {
+		float area = Area;
 
+		// TODO set thresholds for damage here
+		if (area > 10f) {
+			healthBar.value -= 0.1f;
+		} else {
+			healthBar.value += 0.1f;
 		}
+
+		if (healthBar.value <= 0f) {
+			//TODO game over
+		}
+
+
 	}
 	
 	// Update is called once per frame
