@@ -24,7 +24,7 @@ public class CirclesManager : MonoBehaviour {
 		 stressBar = GameObject.Find("Canvas/Stress").GetComponent<Slider>();
 		 audios = GetComponents<AudioSource>();
 
-		 currentDay = 10;
+		 currentDay = 0;
 		 taskIndex = 0;
 		 dayTimer = new Timer(30f);
 		 endOfDayTimer = new Timer(3f);
@@ -107,7 +107,7 @@ public class CirclesManager : MonoBehaviour {
 		if (!dayTimer.IsOffCooldown) {
 		
 			float p = dayTimer.PercentTimePassed;
-			float[] thresholds = {-1f, 0.03f, 0.0625f, 0.1f, 0.3125f, 0.3f, 0.625f, 0.7f, 0.8125f, 0.9f, 1f };
+			float[] thresholds = {0.03f, 0.0625f, 0.1f, 0.3125f, 0.3f, 0.625f, 0.7f, 0.8125f, 0.9f, 1f };
 
 			// find whether we need to activate a new task
 			bool newTask = false;
