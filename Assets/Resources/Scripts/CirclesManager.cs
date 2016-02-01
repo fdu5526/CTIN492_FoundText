@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 
 public class CirclesManager : MonoBehaviour {
-	char [][] daysData;
+	string [][] daysData;
 	Timer dayTimer;
 	int taskIndex;
 	Timer taskTimer;
@@ -60,18 +60,18 @@ public class CirclesManager : MonoBehaviour {
 		}
 	}
 
-	char CurrentTask {
+	string CurrentTask {
 		get {
-			char[] dayData = daysData[Mathf.Min(currentDay, daysData.Length - 1)];
+			string[] dayData = daysData[Mathf.Min(currentDay, daysData.Length - 1)];
 			return dayData[taskIndex];
 		}
 	}
 
 	bool IsTaskRandomGenerated {
 		get {
-			char c = CurrentTask;
-			return (c == 'w' || c == 's' || 
-							c == 'm' || c == 'e');
+			string s = CurrentTask;
+			return (s == "w" || s == "s" || 
+							s == "m" || s == "e");
 		}
 		
 	}
@@ -79,33 +79,32 @@ public class CirclesManager : MonoBehaviour {
 	// increase the scale of a sphere, based on request
 	void ActivateTask () {
 		int i = 0;
-		char c = CurrentTask;
-		switch (c) {
-			case 'w':
-				i = (int)UnityEngine.Random.Range(9, 12);
-				break;
-			case 'e':
-				i = (int)UnityEngine.Random.Range(16, 20);
-				break;
-			case 's':
-				i = (int)UnityEngine.Random.Range(4, 8);
-				break;
-			case 'm':
-				i = (int)UnityEngine.Random.Range(12, 16);
-				break;
-			default:
-				i = (int)Char.GetNumericValue(CurrentTask);
-				break;
+		string ct = CurrentTask;
+		print(ct);
+		audios[1].Play();
+
+		if (ct == "w") {
+			i = (int)UnityEngine.Random.Range(9, 12);
+		} else if (ct == "e") {
+			i = (int)UnityEngine.Random.Range(16, 20);
+		} else if (ct == "s") {
+			i = (int)UnityEngine.Random.Range(4, 8);
+		} else if (ct == "m") {
+			i = (int)UnityEngine.Random.Range(12, 16);
+		} else {
+			i = System.Int32.Parse(ct);
 		}
 		circles[i].ChangeScalePercent(3f);
 	}
 
+	// check whether we need to activate new tasks
 	void CheckTime () {
 		if (!dayTimer.IsOffCooldown) {
 		
 			float p = dayTimer.PercentTimePassed;
 			float[] thresholds = { 0.03f, 0.0625f, 0.13f, 0.3125f, 0.4f, 0.625f, 0.7f, 0.8125f, 0.9f, 1f };
 
+			// find whether we need to activate a new task
 			for (int i = 0; i < thresholds.Length; i++) {
 				if (taskIndex == i && p > thresholds[i]) {
 					taskIndex++;
@@ -114,13 +113,11 @@ public class CirclesManager : MonoBehaviour {
 					break;
 				}
 			}
-			
+			// only activate based on timer if we are randomly generating tasks
 			if (taskTimer.IsOffCooldown && IsTaskRandomGenerated) {
 				ActivateTask();
 				taskTimer.Reset();
 			}
-			
-
 		} else {
 			//TODO move to next day
 			currentDay++;

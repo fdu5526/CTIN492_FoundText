@@ -18,7 +18,7 @@ public class Circle : MonoBehaviour {
 	void Start () {
 		rigidbody2d = GetComponent<Rigidbody2D>();
 		collider2d = GetComponent<Collider2D>();
-		scale = UnityEngine.Random.Range(0.3f, 0.5f);
+		scale = UnityEngine.Random.Range(0.1f, 0.2f);
 		display = transform.Find("Display").gameObject;
 		text = display.transform.Find("Text").GetComponent<Text>().text;
 		transform.position = new Vector3(transform.position.x, transform.position.y, -scale);
