@@ -6,18 +6,21 @@ public class CirclesManager : MonoBehaviour {
 	Circle[] circles;
 	InputField inputField;
 
+	AudioSource[] audios;
 
 	// Use this for initialization
 	void Start () {
 		 circles = GetComponentsInChildren<Circle>();
 		 inputField = GameObject.Find("Canvas/InputField").GetComponent<InputField>();
+		 audios = GetComponents<AudioSource>();
 	}
 
 	// search through texts, find one to decrease in size
 	public void EnterText (string s) {
 		for (int i = 0; i < circles.Length; i++) {
 			if (circles[i].Text.Equals(s)) {
-				circles[i].ChangeScalePercent(0.5f);
+				circles[i].ChangeScalePercent(0.33f);
+				audios[1].Play();
 				break;
 			}
 		}
