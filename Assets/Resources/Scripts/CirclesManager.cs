@@ -6,6 +6,7 @@ using System.Collections;
 public class CirclesManager : MonoBehaviour {
 	string [][] daysData;
 	Timer dayTimer;
+	Timer endOfDayTimer;
 	int taskIndex;
 	Timer taskTimer;
 	int currentDay;
@@ -26,6 +27,7 @@ public class CirclesManager : MonoBehaviour {
 		 currentDay = 0;
 		 taskIndex = 0;
 		 dayTimer = new Timer(30f);
+		 endOfDayTimer = new Timer(3f);
 		 dayTimer.Reset();
 		 taskTimer = new Timer(StepTimeBasedOnDay);
 
@@ -36,7 +38,7 @@ public class CirclesManager : MonoBehaviour {
 	public void EnterText (string s) {
 		for (int i = 0; i < circles.Length; i++) {
 			if (circles[i].Text.Equals(s)) {
-				circles[i].ChangeScalePercent(0.33f);
+				circles[i].ChangeScalePercent(0.2f);
 				audios[1].Play();
 				break;
 			}
@@ -46,7 +48,7 @@ public class CirclesManager : MonoBehaviour {
 	float StepTimeBasedOnDay {
 		get {
 			//TODO increase rate as days go by
-			return (float)currentDay;
+			return 2f;//(float)currentDay;
 		}
 	}
 
@@ -102,23 +104,29 @@ public class CirclesManager : MonoBehaviour {
 		if (!dayTimer.IsOffCooldown) {
 		
 			float p = dayTimer.PercentTimePassed;
-			float[] thresholds = { 0.03f, 0.0625f, 0.13f, 0.3125f, 0.4f, 0.625f, 0.7f, 0.8125f, 0.9f, 1f };
+			float[] thresholds = {-1f, 0.03f, 0.0625f, 0.13f, 0.3125f, 0.4f, 0.625f, 0.7f, 0.8125f, 0.9f, 1f };
 
 			// find whether we need to activate a new task
+			bool newTask = false;
 			for (int i = 0; i < thresholds.Length; i++) {
 				if (taskIndex == i && p > thresholds[i]) {
-					taskIndex++;
 					ActivateTask();
+					taskIndex++;
 					taskTimer.Reset();
+					newTask = true;
 					break;
 				}
 			}
 			// only activate based on timer if we are randomly generating tasks
-			if (taskTimer.IsOffCooldown && IsTaskRandomGenerated) {
+			if (!newTask && 
+					taskTimer.IsOffCooldown && 
+					IsTaskRandomGenerated) {
 				ActivateTask();
 				taskTimer.Reset();
 			}
-		} else {
+			endOfDayTimer.Reset();
+
+		} else if (endOfDayTimer.IsOffCooldown) {
 			//TODO move to next day
 			currentDay++;
 			taskIndex = 0;

@@ -14,6 +14,8 @@ public class Circle : MonoBehaviour {
 	Rigidbody2D rigidbody2d;
 	Collider2D collider2d;
 
+	IEnumerator zoomCoroutine;
+
 	// Use this for initialization
 	void Start () {
 		rigidbody2d = GetComponent<Rigidbody2D>();
@@ -30,7 +32,11 @@ public class Circle : MonoBehaviour {
 	public string Text { get { return text; } }
 
 	public void ChangeScalePercent (float percent) {
-		StartCoroutine(ChangeScale(scale * percent));
+		if (zoomCoroutine != null) {
+			StopCoroutine(zoomCoroutine);
+		}
+		zoomCoroutine = ChangeScale(scale * percent);
+		StartCoroutine(zoomCoroutine);
 	}
 
 
