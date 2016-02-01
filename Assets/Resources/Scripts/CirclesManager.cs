@@ -47,7 +47,7 @@ public class CirclesManager : MonoBehaviour {
 
 	float StepTimeBasedOnDay {
 		get {
-			return Mathf.Max(2f - ((float)currentDay * 0.3f), 0.7f);
+			return Mathf.Max(2f - ((float)currentDay * 0.3f), 0.8f);
 		}
 	}
 
@@ -86,7 +86,6 @@ public class CirclesManager : MonoBehaviour {
 	void ActivateTask () {
 		int i = 0;
 		string ct = CurrentTask;
-		print(ct);
 		audios[1].Play();
 
 		if (ct == "w") {
@@ -108,7 +107,7 @@ public class CirclesManager : MonoBehaviour {
 		if (!dayTimer.IsOffCooldown) {
 		
 			float p = dayTimer.PercentTimePassed;
-			float[] thresholds = {-1f, 0.03f, 0.0625f, 0.13f, 0.3125f, 0.4f, 0.625f, 0.7f, 0.8125f, 0.9f, 1f };
+			float[] thresholds = {-1f, 0.03f, 0.0625f, 0.1f, 0.3125f, 0.3f, 0.625f, 0.7f, 0.8125f, 0.9f, 1f };
 
 			// find whether we need to activate a new task
 			bool newTask = false;
@@ -121,6 +120,7 @@ public class CirclesManager : MonoBehaviour {
 					break;
 				}
 			}
+
 			// only activate based on timer if we are randomly generating tasks
 			if (!newTask && 
 					taskTimer.IsOffCooldown && 
