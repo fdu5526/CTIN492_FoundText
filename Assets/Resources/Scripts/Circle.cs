@@ -6,6 +6,7 @@ using System.Collections;
 [RequireComponent (typeof (Collider2D))]
 public class Circle : MonoBehaviour {
 
+	float maxScale = 2f;
 	float scale;
 	string text;
 
@@ -20,7 +21,7 @@ public class Circle : MonoBehaviour {
 	void Start () {
 		rigidbody2d = GetComponent<Rigidbody2D>();
 		collider2d = GetComponent<Collider2D>();
-		scale = UnityEngine.Random.Range(0.1f, 0.2f);
+		scale = UnityEngine.Random.Range(0.2f, 0.25f);
 		display = transform.Find("Display").gameObject;
 		text = display.transform.Find("Text").GetComponent<Text>().text;
 		transform.position = new Vector3(transform.position.x, transform.position.y, -scale);
@@ -35,7 +36,8 @@ public class Circle : MonoBehaviour {
 		if (zoomCoroutine != null) {
 			StopCoroutine(zoomCoroutine);
 		}
-		zoomCoroutine = ChangeScale(scale * percent);
+		float target = Mathf.Min(scale * percent, maxScale);
+		zoomCoroutine = ChangeScale(target);
 		StartCoroutine(zoomCoroutine);
 	}
 

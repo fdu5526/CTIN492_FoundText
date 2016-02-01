@@ -127,7 +127,6 @@ public class CirclesManager : MonoBehaviour {
 			endOfDayTimer.Reset();
 
 		} else if (endOfDayTimer.IsOffCooldown) {
-			//TODO move to next day
 			currentDay++;
 			taskIndex = 0;
 			dayTimer.Reset();
@@ -139,10 +138,12 @@ public class CirclesManager : MonoBehaviour {
 		float area = Area;
 
 		// TODO set thresholds for damage here
-		if (area > 10f) {
-			healthBar.value -= 0.1f;
+		if (area > 8f) {
+			healthBar.value -= 0.15f;
+		} else if (area > 4f) {
+			healthBar.value -= 0.05f;
 		} else {
-			healthBar.value += 0.1f;
+			healthBar.value += 0.05f;
 		}
 
 		if (healthBar.value <= 0f) {
