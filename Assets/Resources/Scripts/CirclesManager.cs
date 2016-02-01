@@ -25,7 +25,7 @@ public class CirclesManager : MonoBehaviour {
 		 stressBar = GameObject.Find("Canvas/Stress").GetComponent<Slider>();
 		 audios = GetComponents<AudioSource>();
 
-		 currentDay = 4;
+		 currentDay = 0;
 		 taskIndex = 0;
 		 dayTimer = new Timer(30f);
 		 endOfDayTimer = new Timer(4f);
