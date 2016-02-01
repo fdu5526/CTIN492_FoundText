@@ -1,29 +1,42 @@
 biological (red)
-	wake up
-	have sex
-	eat food
-	sleep
+	0 - wake up
+	1 - have sex
+	2 - eat food
+	3 - sleep
 
 social (orange)
-	hang with friends
-	chill with bf
-	call parents
-	play with cat
+	4 - hang with friends
+	5 - chill with bf
+	6 - call parents
+	7 - play with cat
 
 work (blue)
-	commute to work
-	do work
-	work meeting
-	check email
+	8 - commute to work
+	9 - do work
+	10 - work meeting
+	11 - check email
 
 monetary (green)
-	file taxes
-	budgeting
-	pay bills
-	pay loans
+	12 - file taxes
+	13 - budgeting
+	14 - pay bills
+	15 - pay loans
 
 entertainment (purple)
-	watch netflix
-	listen to music
-	play games
-	browse internet
+	16 - watch netflix
+	17 - listen to music
+	18 - play games
+	19 - browse internet
+
+
+
+
+
+wake up
+eat food
+commute to work
+check email
+eat food
+do work
+work meeting
+[hang with friends, chill with bf, ]
