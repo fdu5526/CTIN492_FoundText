@@ -25,6 +25,8 @@ public class Circle : MonoBehaviour {
 		transform.localScale = new Vector2(scale, scale);
 	}
 
+	public float Area { get {return scale * scale; } }
+
 	public string Text { get { return text; } }
 
 	public void ChangeScalePercent (float percent) {

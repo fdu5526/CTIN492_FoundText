@@ -1551,7 +1551,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11470296, guid: 66ed6d7393317d640aa4bd0e4a810361, type: 2}
       propertyPath: m_Text
-      value: budget spending
+      value: budgeting
       objectReference: {fileID: 0}
     - target: {fileID: 410816, guid: 66ed6d7393317d640aa4bd0e4a810361, type: 2}
       propertyPath: m_LocalScale.x

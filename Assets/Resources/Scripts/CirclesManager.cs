@@ -22,6 +22,24 @@ public class CirclesManager : MonoBehaviour {
 			}
 		}
 	}
+
+	float Area {
+		get {
+			float f = 0f;
+			for (int i = 0; i < circles.Length; i++) {
+				f += circles[i].Area;
+			}
+			return f;
+		}
+	}
+
+
+	void FixedUpdate () { 
+		// TODO set thresholds for damage here
+		if (true) {
+
+		}
+	}
 	
 	// Update is called once per frame
 	void Update () {
