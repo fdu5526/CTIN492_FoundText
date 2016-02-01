@@ -3,35 +3,24 @@
 public class CSVParser : MonoBehaviour{
 
  	// read CSV and poop out beat array
-	public static string[][] Parse (string path) {
+	public static char[][] Parse (string path) {
 		TextAsset csv = Resources.Load(path) as TextAsset;
 
 		string[] rows = csv.text.Split('\n');
-		string[] labels = rows[0].Split(',');
-
 
 		// Length - 2 to exclude Beat and Duration columns
-		/*Beat[] beats = new Beat[rows.Length - 2];
+		char[][] retval = new char[rows.Length - 1][];
 
 		// read each row
-		for(int i = 1; i < rows.Length - 1; i++) {
+		for(int i = 1; i < retval.Length + 1; i++) {
 			string[] data = rows[i].Split(',');
-
-			// get the dialogues
-			Dialogue[] beatLines = new Dialogue[(data.Length - 2) / 2];
-			for (int d = 0; d < beatLines.Length; d++) {
-				int rd = d + 1;
-				string a = data[2 * rd].Length == 0 ? null : data[2 * rd];
-				string l = data[2 * rd + 1].Length == 0 ? null : data[2 * rd + 1];
-				beatLines[d] = new Dialogue(a, l);
+			retval[i-1] = new char [data.Length];
+			for (int d = 0; d < data.Length; d++) {
+				retval[i-1][d] = data[d][0];
 			}
+			
+		}
 
-			// make the beat
-			float f = 0f;
-			float.TryParse(data[1], out f);
-			beats[i - 1] = new Beat(f, beatLines);
-		}*/
-
-		return null;
+		return retval;
 	}
 }

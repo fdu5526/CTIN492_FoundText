@@ -1,2 +1,3 @@
 figure out thresholds for damage
 implement per day changes
+taking damage UI
