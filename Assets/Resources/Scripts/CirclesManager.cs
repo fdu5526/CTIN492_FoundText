@@ -19,6 +19,7 @@ public class CirclesManager : MonoBehaviour {
 	GameObject gameOver;
 	GameObject pressEnter;
 	GameObject gameStart;
+	HealthIndicator healthIndicator;
 
 	Slider stressBar;
 	AudioSource[] audios;
@@ -35,9 +36,11 @@ public class CirclesManager : MonoBehaviour {
 		 gameOver = GameObject.Find("Canvas/BlackBackground/GameOver");
 		 pressEnter = GameObject.Find("Canvas/BlackBackground/PressEnter");
 		 gameStart = GameObject.Find("Canvas/BlackBackground/GameStart");
+		 healthIndicator = GameObject.Find("Canvas/HealthIndicator").GetComponent<HealthIndicator>();
 
 		 gameOver.SetActive(false);
 		 isGameOver = true;
+		 healthIndicator.SetTransparency(0f);
 
 		 currentDay = 0;
 		 taskIndex = 0;
@@ -197,6 +200,7 @@ public class CirclesManager : MonoBehaviour {
 		if (isGameOver) {
 
 		} else {
+			healthIndicator.SetTransparency(stressBar.value / 100f);
 			float area = Area;
 			if (area > 4f) {
 				stressBar.value += 0.1f;
@@ -208,6 +212,7 @@ public class CirclesManager : MonoBehaviour {
 
 			if (stressBar.value >= 100f) {
 				isGameOver = true;
+				healthIndicator.SetTransparency(0f);
 				blackBackground.SetActive(true);
 				gameOver.SetActive(true);
 				pressEnter.SetActive(true);
@@ -222,6 +227,7 @@ public class CirclesManager : MonoBehaviour {
 	void Update () {
 		if (isGameOver) {
 			if (Input.GetKeyDown(KeyCode.Return)) {
+				// reset everything
 				isGameOver = false;
 				stressBar.value = 0f;
 				blackBackground.SetActive(false);
@@ -232,6 +238,7 @@ public class CirclesManager : MonoBehaviour {
 				taskIndex = 0;
 				dayTimer.Reset();
 				taskTimer = new Timer(StepTimeBasedOnDay);
+				inputField.text = "";
 				for (int i = 0; i < circles.Length; i++) {
 					circles[i].Reset();
 				}
