@@ -15,8 +15,14 @@ public class CirclesManager : MonoBehaviour {
 	Circle[] circles;
 	InputField inputField;
 
+	GameObject blackBackground;
+	GameObject gameOver;
+	GameObject pressEnter;
+	GameObject gameStart;
+
 	Slider stressBar;
 	AudioSource[] audios;
+	bool isGameOver;
 
 	// Use this for initialization
 	void Start () {
@@ -24,6 +30,14 @@ public class CirclesManager : MonoBehaviour {
 		 inputField = GameObject.Find("Canvas/InputField").GetComponent<InputField>();
 		 stressBar = GameObject.Find("Canvas/Stress").GetComponent<Slider>();
 		 audios = GetComponents<AudioSource>();
+
+		 blackBackground = GameObject.Find("Canvas/BlackBackground");
+		 gameOver = GameObject.Find("Canvas/BlackBackground/GameOver");
+		 pressEnter = GameObject.Find("Canvas/BlackBackground/PressEnter");
+		 gameStart = GameObject.Find("Canvas/BlackBackground/GameStart");
+
+		 gameOver.SetActive(false);
+		 isGameOver = true;
 
 		 currentDay = 0;
 		 taskIndex = 0;
@@ -180,38 +194,62 @@ public class CirclesManager : MonoBehaviour {
 
 
 	void FixedUpdate () { 
-		float area = Area;
+		if (isGameOver) {
 
-		if (area > 4f) {
-			stressBar.value += 0.1f;
-		} else if (area > 2f) {
-			stressBar.value += 0.05f;
 		} else {
-			stressBar.value -= 0.05f;
-		}
+			float area = Area;
+			if (area > 4f) {
+				stressBar.value += 0.1f;
+			} else if (area > 2f) {
+				stressBar.value += 0.05f;
+			} else {
+				stressBar.value -= 0.05f;
+			}
 
-		if (stressBar.value >= 100f) {
-			//TODO game over
-		} else {
-			CheckTime();
+			if (stressBar.value >= 100f) {
+				isGameOver = true;
+				blackBackground.SetActive(true);
+				gameOver.SetActive(true);
+				pressEnter.SetActive(true);
+			} else {
+				CheckTime();
+			}
 		}
+		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Return)) {
-			EnterText(inputField.text);
-			inputField.text = "";
-		}
+		if (isGameOver) {
+			if (Input.GetKeyDown(KeyCode.Return)) {
+				isGameOver = false;
+				stressBar.value = 0f;
+				blackBackground.SetActive(false);
+				gameStart.SetActive(false);
+				gameOver.SetActive(false);
+				pressEnter.SetActive(false);
+				currentDay = 0;
+				taskIndex = 0;
+				dayTimer.Reset();
+				taskTimer = new Timer(StepTimeBasedOnDay);
+				for (int i = 0; i < circles.Length; i++) {
+					circles[i].Reset();
+				}
+			}
+		} else {
+			if (Input.GetKeyDown(KeyCode.Return)) {
+				EnterText(inputField.text);
+				inputField.text = "";
+			}
 
-		if (Input.anyKeyDown) {
-			float p = UnityEngine.Random.Range(0.8f, 1.2f);
-			audios[2].pitch = p;
-			audios[2].Play();
-		}
+			if (Input.anyKeyDown) {
+				float p = UnityEngine.Random.Range(0.8f, 1.2f);
+				audios[2].pitch = p;
+				audios[2].Play();
+			}
 
-		inputField.Select();
- 		inputField.ActivateInputField();
-		
+			inputField.Select();
+	 		inputField.ActivateInputField();
+		}
 	}
 }

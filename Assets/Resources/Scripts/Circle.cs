@@ -21,9 +21,15 @@ public class Circle : MonoBehaviour {
 	void Start () {
 		rigidbody2d = GetComponent<Rigidbody2D>();
 		collider2d = GetComponent<Collider2D>();
-		scale = 0.001f;//UnityEngine.Random.Range(0.2f, 0.25f);
+		scale = 0.001f;
 		display = transform.Find("Display").gameObject;
 		text = display.transform.Find("Text").GetComponent<Text>().text;
+		transform.position = new Vector3(transform.position.x, transform.position.y, -scale);
+		transform.localScale = new Vector2(scale, scale);
+	}
+
+	public void Reset () {
+		scale = 0.001f;
 		transform.position = new Vector3(transform.position.x, transform.position.y, -scale);
 		transform.localScale = new Vector2(scale, scale);
 	}
@@ -40,14 +46,12 @@ public class Circle : MonoBehaviour {
 		if (scale < 0.51f && percent < 1f) {
 			target = 0.001f;
 		} else if (scale < 0.1f && percent > 0.99f) {
-			target = 0.5f;
+			target = UnityEngine.Random.Range(0.49f, 0.51f);
 		}
 
 		zoomCoroutine = ChangeScale(target);
 		StartCoroutine(zoomCoroutine);
 	}
-
-
 
 	IEnumerator ChangeScale (float target) {
 		while (Mathf.Abs(scale - target) > 0.001f) {
